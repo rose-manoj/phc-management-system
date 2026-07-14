@@ -10,3 +10,4 @@ create type job_role as enum(
     'Lab Tech',
     'Pharmacist'
 );
+
