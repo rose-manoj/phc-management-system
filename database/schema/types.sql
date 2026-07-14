@@ -11,3 +11,4 @@ create type job_role as enum(
     'Pharmacist'
 );
 
+
