@@ -52,4 +52,21 @@ CREATE TABLE dispensed_medicines(
     FOREIGN KEY (prescription_id)
     REFERENCES prescription(prescription_id)
     ON DELETE CASCADE
-)
+);
+
+CREATE TABLE treats(
+    treatment_id SERIAL PRIMARY KEY,
+    patient_id INTEGER NOT NULL,
+    staff_id INTEGER,
+    visit_date DATE NOT NULL,
+    remarks TEXT,
+
+    CONSTRAINT fk_treats_patient
+    FOREIGN KEY (patient_id)
+    REFERENCES patient(patient_id),
+
+    CONSTRAINT fk_treats_staff
+    FOREIGN KEY (staff_id)
+    REFERENCES staff(staff_id)
+);
+
