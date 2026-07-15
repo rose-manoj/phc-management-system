@@ -15,3 +15,14 @@ CREATE TABLE staff(
     doj DATE NOT NULL,
     role job_role NOT NULL
 );
+
+CREATE TABLE prescription(
+    prescription_id SERIAL PRIMARY KEY,
+    patient_id INTEGER NOT NULL,
+    prescription_date DATE NOT NULL,
+
+    CONSTRAINT fk_prescription_patient
+    FOREIGN KEY (patient_id)
+    REFERENCES patient(patient_id)
+    ON DELETE CASCADE
+);
