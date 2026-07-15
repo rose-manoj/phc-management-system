@@ -26,3 +26,17 @@ CREATE TABLE prescription(
     REFERENCES patient(patient_id)
     ON DELETE CASCADE
 );
+
+CREATE TABLE lab_test(
+    test_id SERIAL PRIMARY KEY,
+    prescription_id INTEGER NOT NULL,
+    test_type VARCHAR(100) NOT NULL,
+    test_date DATE NOT NULL,
+    status VARCHAR(20),
+    result TEXT,
+
+    CONSTRAINT fk_labtest_prescription
+    FOREIGN KEY (prescription_id)
+    REFERENCES prescription(prescription_id)
+    ON DELETE CASCADE
+);
