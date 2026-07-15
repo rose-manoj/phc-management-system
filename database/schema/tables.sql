@@ -40,3 +40,16 @@ CREATE TABLE lab_test(
     REFERENCES prescription(prescription_id)
     ON DELETE CASCADE
 );
+
+CREATE TABLE dispensed_medicines(
+    medicine_id SERIAL PRIMARY KEY,
+    prescription_id INTEGER NOT NULL,
+    medicine_name VARCHAR(100) NOT NULL,
+    dosage VARCHAR(100),
+    quantity INTEGER,
+
+    CONSTRAINT fk_medicine_prescription
+    FOREIGN KEY (prescription_id)
+    REFERENCES prescription(prescription_id)
+    ON DELETE CASCADE
+)
