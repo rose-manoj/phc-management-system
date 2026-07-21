@@ -85,3 +85,5 @@ CREATE TABLE dispenses (
     REFERENCES staff(staff_id)
 );
 
+ALTER TABLE prescription
+ADD COLUMN lab_test_required BOOLEAN DEFAULT FALSE;
