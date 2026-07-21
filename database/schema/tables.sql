@@ -70,3 +70,18 @@ CREATE TABLE treats(
     REFERENCES staff(staff_id)
 );
 
+CREATE TABLE dispenses (
+    dispense_id SERIAL PRIMARY KEY,
+    prescription_id INTEGER NOT NULL,
+    staff_id INTEGER NOT NULL,
+    dispense_date DATE NOT NULL,
+
+    CONSTRAINT fk_dispense_prescription
+    FOREIGN KEY (prescription_id)
+    REFERENCES prescription(prescription_id),
+
+    CONSTRAINT fk_dispense_staff
+    FOREIGN KEY (staff_id)
+    REFERENCES staff(staff_id)
+);
+
