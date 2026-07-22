@@ -103,3 +103,22 @@ def update_patient(patient_id, name, dob, gender, contact, health_status):
     conn.close()
 
     return updated_rows
+
+def delete_patient(patient_id):
+
+    conn = get_connection()
+    cur = conn.cursor()
+
+    cur.execute("""
+        DELETE FROM patient
+        WHERE patient_id = %s;
+    """, (patient_id,))
+
+    deleted_rows = cur.rowcount
+
+    conn.commit()
+
+    cur.close()
+    conn.close()
+
+    return deleted_rows

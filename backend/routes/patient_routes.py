@@ -1,5 +1,5 @@
 from flask import Blueprint, jsonify, request
-from services.patient_service import get_all_patients, add_patient, update_patient
+from services.patient_service import get_all_patients, add_patient, update_patient, delete_patient
 
 patient_bp = Blueprint("patients", __name__)
 
@@ -126,4 +126,19 @@ def edit_patient(patient_id):
 
     return jsonify({
         "message": "Patient updated successfully"
+    }), 200
+
+@patient_bp.route("/patients/<int:patient_id>", methods=["DELETE"])
+def remove_patient(patient_id):
+
+    rows = delete_patient(patient_id)
+
+    if rows == 0:
+
+        return jsonify({
+            "message": "Patient not found"
+        }), 404
+
+    return jsonify({
+        "message": "Patient deleted successfully"
     }), 200
