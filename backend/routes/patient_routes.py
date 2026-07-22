@@ -25,3 +25,28 @@ def get_patients():
         })
 
     return jsonify(patient_list)
+
+
+from services.patient_service import get_patient_by_id
+
+
+@patient_bp.route("/patients/<int:patient_id>", methods=["GET"])
+def fetch_patient(patient_id):
+
+    patient = get_patient_by_id(patient_id)
+
+    if patient is None:
+        return jsonify({"message": "Patient not found"}), 404
+
+    patient_data = {
+
+        "patient_id": patient[0],
+        "name": patient[1],
+        "dob": patient[2],
+        "gender": patient[3],
+        "contact": patient[4],
+        "health_status": patient[5]
+
+    }
+
+    return jsonify(patient_data), 200

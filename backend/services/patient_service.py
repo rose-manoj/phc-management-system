@@ -17,3 +17,23 @@ def get_all_patients():
     cur.close()
     conn.close()
     return patients
+
+def get_patient_by_id(patient_id):
+    conn = get_connection()
+    cur = conn.cursor()
+    cur.execute("""
+        SELECT
+            patient_id,
+            name,
+            dob,
+            gender,
+            contact,
+            health_status
+            FROM patient
+            WHERE patient_id = %s;
+    """, (patient_id,))
+
+    patients = cur.fetchone()
+    cur.close()
+    conn.close()
+    return patients
