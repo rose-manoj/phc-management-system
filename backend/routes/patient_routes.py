@@ -1,5 +1,5 @@
-from flask import Blueprint, jsonify
-from services.patient_service import get_all_patients
+from flask import Blueprint, jsonify, request
+from services.patient_service import get_all_patients, add_patient
 
 patient_bp = Blueprint("patients", __name__)
 
@@ -50,3 +50,40 @@ def fetch_patient(patient_id):
     }
 
     return jsonify(patient_data), 200
+
+@patient_bp.route("/patients", methods=["POST"])
+def create_patient():
+
+    data = request.get_json()
+
+    required_fields = [
+        "name",
+        "dob",
+        "gender"
+    ]
+
+    for field in required_fields:
+
+        if field not in data:
+
+            return jsonify({
+                "message": f"{field} is required"
+            }), 400
+
+    patient_id = add_patient(
+
+        data["name"],
+        data["dob"],
+        data["gender"],
+        data.get("contact"),
+        data.get("health_status")
+
+    )
+
+    return jsonify({
+
+        "message": "Patient created successfully",
+
+        "patient_id": patient_id
+
+    }), 201

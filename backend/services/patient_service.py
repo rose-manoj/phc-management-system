@@ -37,3 +37,36 @@ def get_patient_by_id(patient_id):
     cur.close()
     conn.close()
     return patients
+
+def add_patient(name, dob, gender, contact, health_status):
+    conn = get_connection()
+    cur = conn.cursor()
+    cur.execute("""
+        INSERT INTO  patient
+        (
+            name,
+            dob,
+            gender,
+            contact,
+            health_status
+        )
+        VALUES
+        (%s, %s, %s, %s, %s)
+        RETURNING patient_id;
+    """,
+    (
+        name,
+        dob,
+        gender,
+        contact,
+        health_status
+    ))
+
+    patient_id = cur.fetchone()[0]
+
+    conn.commit()
+
+    cur.close()
+    conn.close()
+
+    return patient_id
