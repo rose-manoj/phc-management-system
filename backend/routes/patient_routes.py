@@ -1,5 +1,5 @@
 from flask import Blueprint, jsonify, request
-from services.patient_service import get_all_patients, add_patient
+from services.patient_service import get_all_patients, add_patient, update_patient
 
 patient_bp = Blueprint("patients", __name__)
 
@@ -87,3 +87,43 @@ def create_patient():
         "patient_id": patient_id
 
     }), 201
+
+@patient_bp.route("/patients/<int:patient_id>", methods=["PUT"])
+def edit_patient(patient_id):
+
+    data = request.get_json()
+
+    required_fields = [
+        "name",
+        "dob",
+        "gender"
+    ]
+
+    for field in required_fields:
+
+        if field not in data:
+            return jsonify({
+                "message": f"{field} is required"
+            }), 400
+
+    rows = update_patient(
+
+        patient_id,
+
+        data["name"],
+        data["dob"],
+        data["gender"],
+        data.get("contact"),
+        data.get("health_status")
+
+    )
+
+    if rows == 0:
+
+        return jsonify({
+            "message": "Patient not found"
+        }), 404
+
+    return jsonify({
+        "message": "Patient updated successfully"
+    }), 200
